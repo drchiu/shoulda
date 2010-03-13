@@ -35,12 +35,24 @@ module Shoulda # :nodoc:
   #	- APP_ROOT/vendor/*/shoulda_macros
   #	- APP_ROOT/test/vendor/*/shoulda_macros
   #	- APP_ROOT/test/shoulda_macros
+  # def self.autoload_macros(root, *dirs)
+  #   dirs << File.join('test')
+  #   complete_dirs = dirs.map{|d| File.join(root, d, 'shoulda_macros')}
+  #   all_files     = complete_dirs.inject([]){ |files, dir| files + Dir[File.join(dir, '*.rb')] }
+  #   all_files.each do |file|
+  #     require file
+  #   end
+  # end
+  
   def self.autoload_macros(root, *dirs)
-    dirs << File.join('test')
-    complete_dirs = dirs.map{|d| File.join(root, d, 'shoulda_macros')}
-    all_files     = complete_dirs.inject([]){ |files, dir| files + Dir[File.join(dir, '*.rb')] }
-    all_files.each do |file|
-      require file
+    unless root == nil
+      dirs << File.join('test')               
+      complete_dirs = dirs.map{|d| File.join(root, d, 'shoulda_macros')}
+      all_files     = complete_dirs.inject([]){ |files, dir| files + Dir[File.join(dir, '*.rb')] }
+      all_files.each do |file|
+        require file
+      end
     end
   end
+  
 end
